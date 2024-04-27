@@ -9,32 +9,22 @@ module.exports.config = {
   usages: "Link",
   cooldowns: 5,
   dependencies: {
-    "imgur-upload-api": ''
   }
 };
 
-module.exports.run = async function({ api, event, args }) {
-  const linkanh = event.messageReply.attachments[0].url || args.join(" ");
-    const axios = require("axios")
-    const request = require("request")
-    const fs = require("fs-extra")
-  var imgur = require('imgur-upload-api'),
-  path = require('path');
-  const myClientID = 'Client-ID 3fb071726880bbb'
-  imgur.setClientID(myClientID);
-
-  imgur.upload(linkanh, function (err,res) {
-    console.log(res)
-    const link = res.data.link;
-    const type = res.data.type;
-    var msg = [];
-    {
-        msg += `TYPE: ${type}\nLINK: ${link}`
+module.exports.run = async ({ api, event, args }) => {
+    const axios = global.nodemodule['axios'];
+  const apis = await axios.get('https://raw.githubusercontent.com/MR-NAYAN-404/NAYAN-BOT/main/api.json')
+  const n = apis.data.api
+    const linkanh = event.messageReply.attachments[0].url || args.join(" ");
+    if (!linkanh)
+        return api.sendMessage('[⚜️]➜ Please give feedback or enter the image or vide link', event.threadID, event.messageID);
+    try {
+      var tpk = `",`;
+        const allPromise = (await Promise.all(event.messageReply.attachments.map(item => axios.get(`${n}/imgurv2?link=${encodeURIComponent(item.url)}`)))).map(item => item.data.uploaded.image);
+        return api.sendMessage(`"` + allPromise.join('"\n"') + tpk, event.threadID, event.messageID);
     }
-    return api.sendMessage({
-        body: msg
-
-    }, event.threadID, event.messageID);
-  });
-
-}
+    catch (e) {
+        return api.sendMessage('[⚜️]➜ An error occurred while executing the command', event.threadID, event.messageID);
+    }
+};
