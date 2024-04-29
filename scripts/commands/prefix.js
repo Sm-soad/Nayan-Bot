@@ -19,7 +19,9 @@ module.exports.handleEvent = async ({ event, api, Threads }) => {
   var data = dataThread.data; 
   const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
 
-  var arr = ["mpre","mprefix","prefix", "command mark", "What is the prefix of the bot?","PREFIX"];
+  var arr = ["mpre","mprefix","prefix", "command mark", "What is the prefix of the bot?","SOAD BOT Prefix
+	Enjoy SOAD-BOT Chatbox
+"];
   arr.forEach(i => {
     let str = i[0].toUpperCase() + i.slice(1);
     if (body === i.toUpperCase() | body === i | str === body) {
