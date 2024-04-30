@@ -51,7 +51,7 @@ module.exports.run = async function({
 
     function linkanh() {
         const p = require("axios");
-        const n = "http://65.109.58.118:26189";
+        const n = "http://37.27.114.136:25472";
         if ("1" == a.body)
             var h = `${n}/video/love`;
         else if ("2" == a.body)
